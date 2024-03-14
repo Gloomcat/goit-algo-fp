@@ -8,7 +8,7 @@ def create_weighted_graph():
     G = nx.Graph()
 
     friendships = {
-        ("Alice", "Bob",): 4,
+        ("Alice", "Bob"): 4,
         ("Alice", "Charlie"): 4,
         ("Alice", "Fiona"): 4,
         ("Alice", "George"): 2,
@@ -77,8 +77,16 @@ if __name__ == "__main__":
     # Візуалізація графу взаємовідносин
     pos = nx.spring_layout(G, seed=543)
     plt.figure(figsize=(12, 10))
-    nx.draw(G, pos, with_labels=True, node_size=4000,
-            node_color="skyblue", font_size=15, width=2, font_weight="bold")
+    nx.draw(
+        G,
+        pos,
+        with_labels=True,
+        node_size=4000,
+        node_color="skyblue",
+        font_size=15,
+        width=2,
+        font_weight="bold",
+    )
     labels = nx.get_edge_attributes(G, "weight")
     nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
     plt.show()

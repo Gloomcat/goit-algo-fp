@@ -15,7 +15,7 @@ class Node:
 
 
 def lighten(color, scale_factor=1.1):
-    assert color.startswith('#') and len(color) == 7
+    assert color.startswith("#") and len(color) == 7
 
     color = color[1:]
 
@@ -36,6 +36,7 @@ def dfs_colorize(graph, node, color):
         for neighbor in graph[node].keys():
             if neighbor not in visited:
                 dfs(graph, neighbor, visited)
+
     dfs(graph, node)
 
 
@@ -55,6 +56,7 @@ def bfs_colorize(graph, queue, color):
                 if id not in visited:
                     queue.extend([id])
         bfs(graph, queue, visited)
+
     bfs(graph, queue)
 
 
@@ -63,16 +65,14 @@ def add_edges(graph, node, pos, x=0, y=0, layer=1):
         graph.add_node(node.id, label=node.val)
         if node.left:
             graph.add_edge(node.id, node.left.id)
-            l = x - 1 / 2 ** layer
+            l = x - 1 / 2**layer
             pos[node.left.id] = (l, y - 1)
-            l = add_edges(graph, node.left, pos, x=l,
-                          y=y - 1, layer=layer + 1)
+            l = add_edges(graph, node.left, pos, x=l, y=y - 1, layer=layer + 1)
         if node.right:
             graph.add_edge(node.id, node.right.id)
-            r = x + 1 / 2 ** layer
+            r = x + 1 / 2**layer
             pos[node.right.id] = (r, y - 1)
-            r = add_edges(graph, node.right, pos, x=r,
-                          y=y - 1, layer=layer + 1)
+            r = add_edges(graph, node.right, pos, x=r, y=y - 1, layer=layer + 1)
     return graph
 
 
@@ -83,25 +83,26 @@ def draw_colorized_trees(tree_root):
     print(pos)
     start_color = "#c53c74"
 
-    labels = {node[0]: node[1]['label'] for node in tree.nodes(
-        data=True)}
+    labels = {node[0]: node[1]["label"] for node in tree.nodes(data=True)}
 
     fig, axs = plt.subplots(1, 2, figsize=(14, 6))
     fig.suptitle("Colorized binary trees", fontsize=16)
 
     dfs_colorize(tree, tree_root.id, start_color)
-    colors = [node[1]['color'] for node in tree.nodes(data=True)]
+    colors = [node[1]["color"] for node in tree.nodes(data=True)]
     axs[0].set_title("DFS")
     plt.subplot(121)
-    nx.draw(tree, pos=pos, labels=labels, arrows=False,
-            node_size=2500, node_color=colors)
+    nx.draw(
+        tree, pos=pos, labels=labels, arrows=False, node_size=2500, node_color=colors
+    )
 
     bfs_colorize(tree, deque([tree_root.id]), start_color)
-    colors = [node[1]['color'] for node in tree.nodes(data=True)]
+    colors = [node[1]["color"] for node in tree.nodes(data=True)]
     axs[1].set_title("BFS")
     plt.subplot(122)
-    nx.draw(tree, pos=pos, labels=labels, arrows=False,
-            node_size=2500, node_color=colors)
+    nx.draw(
+        tree, pos=pos, labels=labels, arrows=False, node_size=2500, node_color=colors
+    )
 
     plt.show()
 

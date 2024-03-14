@@ -174,8 +174,7 @@ if __name__ == "__main__":
     other_node_range = int(node_range * 1.5)
     other_llist = LinkedList()
     for _ in range(node_range):
-        other_llist.add(random.randint(
-            int(node_range * 0.5), other_node_range))
+        other_llist.add(random.randint(int(node_range * 0.5), other_node_range))
 
     assert other_llist.size() == node_range
 
